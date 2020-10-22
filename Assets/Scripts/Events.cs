@@ -4,8 +4,27 @@ using UnityEngine;
 
 public class Events : MonoBehaviour
 {
-    public void OnCustomButtonPress()
+    
+    public bool red = false;
+    public bool blue = false;
+    public bool green = false;
+    
+    public void RedButtonPress()
     {
-        Debug.Log("Button is pressed");
+        red = true;
+        Debug.Log("Red Button is pressed");
     }
+
+    public void BlueButtonPress()
+    {
+        blue = true;
+        Debug.Log("Blue Button is pressed");
+    }
+
+    public void GreenButtonPress()
+    {
+        green = true;
+        Debug.Log("Green Button is pressed");
+    }
+
 }
