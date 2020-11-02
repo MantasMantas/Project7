@@ -8,15 +8,16 @@ public class HandOffset : MonoBehaviour
     public Transform virtualTarget;
     public Transform realHand;
     public float warpBoundary;
+
     bool croosed;
 
     Vector3 H0;
+    Vector3 T;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        //warpBoundary = 0;
         croosed = false;
     }
 
@@ -24,35 +25,35 @@ public class HandOffset : MonoBehaviour
     void Update()
     {
      
-        if(transform.position.z > warpBoundary)
+        if(transform.position.z > warpBoundary && transform.position.z < realTarget.position.z)
         {
             if(!croosed)
             {
                 // hand position at the start of the warp
                 H0 = transform.position;
                 croosed = true;
+
+                // warping formula W = aT; T = virual point - physichal point
+                T = virtualTarget.position - realTarget.position;
             }
-
             
-            // warping formula W = aT; T = virual point - physichal point
-            Vector3 T = virtualTarget.position - realTarget.position;
 
-            float Ds = Vector3.Distance(H0, realHand.position);
+            float Ds = Vector3.Distance(realHand.position, H0);
             float Dp = Vector3.Distance(realHand.position, realTarget.position);
 
             float a = Ds/(Ds+Dp);
-
             Vector3 W = a * T;
-
-            if (realHand.position.z < realTarget.position.z)
-            {
-                transform.position = new Vector3(transform.position.x + W.x, transform.position.y + W.y, transform.position.z + W.z);
-            }
-
+            transform.position = new Vector3(realHand.position.x + W.x, realHand.position.y + W.y, realHand.position.z + W.z);
+            
+            
+            
+            
+            
         }
         else
         {
             croosed = false;
         }
     }
+
 }
