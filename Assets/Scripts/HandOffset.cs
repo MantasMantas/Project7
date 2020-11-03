@@ -5,7 +5,7 @@ using UnityEngine;
 public class HandOffset : MonoBehaviour
 {
     public Transform realTarget;
-    public Transform virtualTarget;
+    Transform virtualTarget;
     public Transform realHand;
     public float warpBoundary;
 
@@ -45,15 +45,16 @@ public class HandOffset : MonoBehaviour
             Vector3 W = a * T;
             transform.position = new Vector3(realHand.position.x + W.x, realHand.position.y + W.y, realHand.position.z + W.z);
             
-            
-            
-            
-            
         }
         else
         {
             croosed = false;
         }
+    }
+
+    public void switchTarget(Transform newTarget)
+    {
+        virtualTarget = newTarget;
     }
 
 }
