@@ -1408,7 +1408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   realTarget: {fileID: 181519974}
-  virtualTarget: {fileID: 1843316107}
   realHand: {fileID: 405221786}
   warpBoundary: 0.1
 --- !u!1001 &1832249059
@@ -1556,6 +1555,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90b96cd293b961743be4826ae57fbe6a, type: 3}
+--- !u!4 &1832249060 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5966289960780825876, guid: 90b96cd293b961743be4826ae57fbe6a, type: 3}
+  m_PrefabInstance: {fileID: 1832249059}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1843316107 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5966289960780825876, guid: 90b96cd293b961743be4826ae57fbe6a, type: 3}
@@ -1687,6 +1691,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monitor: {fileID: 1322622918}
+  hand: {fileID: 1718064376}
+  buttonRed: {fileID: 181519974}
+  buttonBlue: {fileID: 1843316107}
+  buttonGreen: {fileID: 1832249060}
 --- !u!1001 &5966289960368546424
 PrefabInstance:
   m_ObjectHideFlags: 0
