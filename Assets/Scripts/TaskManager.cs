@@ -5,8 +5,15 @@ using UnityEngine;
 public class TaskManager : MonoBehaviour
 {
     public GameObject monitor;
+    public GameObject hand;
     ScreenManager screen;
     Events events;
+    HandOffset bodyWarping;
+
+    public Transform buttonRed;
+    public Transform buttonBlue;
+    public Transform buttonGreen;
+
     int taskIndex;
 
     // Start is called before the first frame update
@@ -14,8 +21,11 @@ public class TaskManager : MonoBehaviour
     {
         screen = monitor.GetComponent<ScreenManager>();
         events = GetComponent<Events>();
+        bodyWarping = hand.GetComponent<HandOffset>();
+
         screen.changeText("Red round");
         taskIndex = 0;
+        bodyWarping.switchTarget(buttonRed);
         
     }
 
@@ -28,6 +38,7 @@ public class TaskManager : MonoBehaviour
            {
                screen.changeText("Blue round");
                taskIndex++;
+               bodyWarping.switchTarget(buttonBlue);
            }
        }
        if(taskIndex == 1)
@@ -36,13 +47,14 @@ public class TaskManager : MonoBehaviour
            {
                screen.changeText("Green round");
                taskIndex++;
+               bodyWarping.switchTarget(buttonGreen);
            }
        }
        if(taskIndex == 2)
        {
            if(events.green)
            {
-               screen.changeText("Gud jub");
+               screen.customText("Gud jub");
                
            }
        }
