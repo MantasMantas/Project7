@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class HandOffset : MonoBehaviour
 {
-    public Transform realTarget;
-    Transform virtualTarget;
     public Transform realHand;
+    public Transform virtualHand;
+    public Transform realTarget;
     public float warpBoundary;
 
-    bool croosed;
+    public bool croosed;
 
     Vector3 H0;
     Vector3 T;
@@ -25,16 +25,13 @@ public class HandOffset : MonoBehaviour
     void Update()
     {
      
-        if(transform.position.z > warpBoundary && transform.position.z < realTarget.position.z)
+        if(realHand.position.z > warpBoundary)
         {
             if(!croosed)
             {
                 // hand position at the start of the warp
-                H0 = transform.position;
+                H0 = realHand.position;
                 croosed = true;
-
-                // warping formula W = aT; T = virual point - physichal point
-                T = virtualTarget.position - realTarget.position;
             }
             
 
@@ -43,7 +40,7 @@ public class HandOffset : MonoBehaviour
 
             float a = Ds/(Ds+Dp);
             Vector3 W = a * T;
-            transform.position = new Vector3(realHand.position.x + W.x, realHand.position.y + W.y, realHand.position.z + W.z);
+            virtualHand.position = new Vector3(realHand.position.x + W.x, realHand.position.y + W.y, realHand.position.z + W.z);
             
         }
         else
@@ -52,9 +49,9 @@ public class HandOffset : MonoBehaviour
         }
     }
 
-    public void switchTarget(Transform newTarget)
+    public void setT(Vector3 newT)
     {
-        virtualTarget = newTarget;
+        T = newT;
     }
 
 }

@@ -9,10 +9,9 @@ public class ChangeBlindness : MonoBehaviour
     private Transform _selection;
     public float timeThreshold;
     float timeLeft;
-    bool applyManipulation = false;
+    public bool applyManipulation = false;
     public Transform buttons;
-    public Transform realButton;
-    public Transform targetButton;
+    Vector3 T;
 
     private void Start()
     {
@@ -42,18 +41,26 @@ public class ChangeBlindness : MonoBehaviour
 
                     } else
                     {
-                        applyManipulation = true;
-                        Debug.Log("Apply that fucking manipulation.");
-                        Vector3 difference = realButton.position - targetButton.position;
-                        buttons.position = new Vector3(buttons.position.x + difference.x, buttons.position.y, buttons.position.z);
+                        if(!applyManipulation)
+                        {
+                            Debug.Log("Working");
+                            applyManipulation = true;
+                            buttons.position = new Vector3(buttons.position.x + T.x, buttons.position.y + T.y, buttons.position.z + T.z);
+                        }
                     }
                 }
                 _selection = selection;
             } else
             {
                 timeLeft = timeThreshold;
+                applyManipulation = false;
                 Debug.Log("You are not looking at anything.");
             }
         }
+    }
+
+    public void setT(Vector3 newT)
+    {
+        T = newT;
     }
 }

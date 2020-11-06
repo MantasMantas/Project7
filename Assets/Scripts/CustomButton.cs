@@ -8,7 +8,7 @@ public class CustomButton : MonoBehaviour
 
     public float pressLength;
     bool pressed;
-    bool touched;
+    public bool touched;
     public ButtonEvent downEvent;
     public float reboundSpeed = 0.2f;
 
