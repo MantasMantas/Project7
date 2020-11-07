@@ -62,7 +62,7 @@ public class TaskManagerW : MonoBehaviour
         }
         if(!buttons[taskIndex].GetComponent<Collider>().enabled && !bodyWarping.croosed)
         {
-            bodyWarping.setT(buttons[taskIndex].transform.position - physicalButtonPos);
+            bodyWarping.setT((buttons[taskIndex].transform.position - physicalButtonPos) * 2f);
             buttons[taskIndex].GetComponent<Collider>().enabled = true;
             screen.changeText(buttons[taskIndex].name);
         }

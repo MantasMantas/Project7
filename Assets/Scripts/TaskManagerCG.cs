@@ -60,9 +60,9 @@ public class TaskManagerCG : MonoBehaviour
             screen.customText("Good Job");
             return;
         }
-        if(!buttons[taskIndex].GetComponent<Collider>().enabled)
+        if(!buttons[taskIndex].GetComponent<Collider>().enabled && changeBlindness.applyManipulation)
         {
-            changeBlindness.setT(physicalButtonPos - buttons[taskIndex].transform.position);
+            changeBlindness.applyM(physicalButtonPos - buttons[taskIndex].transform.position);
             buttons[taskIndex].GetComponent<Collider>().enabled = true;
             screen.changeText(buttons[taskIndex].name);
         }

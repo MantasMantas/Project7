@@ -43,9 +43,7 @@ public class ChangeBlindness : MonoBehaviour
                     {
                         if(!applyManipulation)
                         {
-                            Debug.Log("Working");
                             applyManipulation = true;
-                            buttons.position = new Vector3(buttons.position.x + T.x, buttons.position.y + T.y, buttons.position.z + T.z);
                         }
                     }
                 }
@@ -62,5 +60,10 @@ public class ChangeBlindness : MonoBehaviour
     public void setT(Vector3 newT)
     {
         T = newT;
+    }
+
+    public void applyM(Vector3 T)
+    {
+        buttons.position = new Vector3(buttons.position.x + T.x, buttons.position.y + T.y, buttons.position.z + T.z);
     }
 }
