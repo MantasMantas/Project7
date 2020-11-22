@@ -10,7 +10,6 @@ public class ChangeBlindness : MonoBehaviour
     public float timeThreshold;
     float timeLeft;
     public bool applyManipulation = false;
-    public Transform buttons;
     Vector3 T;
 
     private void Start()
@@ -62,7 +61,7 @@ public class ChangeBlindness : MonoBehaviour
         T = newT;
     }
 
-    public void applyM(Vector3 T)
+    public void applyM(Vector3 T, Transform buttons)
     {
         buttons.position = new Vector3(buttons.position.x + T.x, buttons.position.y + T.y, buttons.position.z + T.z);
     }
