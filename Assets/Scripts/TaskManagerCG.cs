@@ -7,13 +7,14 @@ public class TaskManagerCG : MonoBehaviour
     public GameObject monitor;
     ScreenManager screen;
     Events events;
-    ChangeBlindness changeBlindness;
+    CheckGaze checkGaze;
 
     Vector3 physicalButtonPos;
     Vector3 physicalButtonPos1;
     Vector3 physicalButtonPos2;
     Vector3 physicalButtonPos3;
     Vector3 physicalButtonPos4;
+    Vector3 panelOriginalPos;
 
 
     public GameObject section1;
@@ -57,12 +58,13 @@ public class TaskManagerCG : MonoBehaviour
     {
         screen = monitor.GetComponent<ScreenManager>();
         events = GetComponent<Events>();
-        changeBlindness = GetComponent<ChangeBlindness>();
+        checkGaze = GetComponent<CheckGaze>();
 
         physicalButtonPos1 = section1.transform.position;
         physicalButtonPos2 = section2.transform.position;
         physicalButtonPos3 = section3.transform.position;
         physicalButtonPos4 = section4.transform.position;
+        panelOriginalPos = panel.position;
 
         buttons.Add(section1); buttons.Add(section12); buttons.Add(section13); buttons.Add(section14); buttons.Add(section15); buttons.Add(section16);
         buttons.Add(section2); buttons.Add(section22); buttons.Add(section23); buttons.Add(section24); buttons.Add(section25); buttons.Add(section26);
@@ -72,9 +74,6 @@ public class TaskManagerCG : MonoBehaviour
         listSize = buttons.Count;
         taskIndex = 0;
 
-
-        Randomizer.Shuffle(randNum);
-
     
         for (int i=0; i < listSize; i++)
         {
@@ -83,7 +82,7 @@ public class TaskManagerCG : MonoBehaviour
         }
 
         Randomizer.Shuffle(randNum);
-        screen.changeText(buttons[randNum[taskIndex]].name);
+        screen.changeText("Look for next task");
     }
 
     // Update is called once per frame
@@ -94,7 +93,7 @@ public class TaskManagerCG : MonoBehaviour
             screen.customText("Good Job");
             return;
         }
-        if (!buttons[randNum[taskIndex]].GetComponent<Collider>().enabled && changeBlindness.applyManipulation)
+        if (!buttons[randNum[taskIndex]].GetComponent<Collider>().enabled && checkGaze.applyManipulation)
         {
             if (randNum[taskIndex] >= 0 && randNum[taskIndex] <= 5)
             {
@@ -117,7 +116,8 @@ public class TaskManagerCG : MonoBehaviour
                 
             }
 
-            changeBlindness.applyM(physicalButtonPos - buttons[randNum[taskIndex]].transform.position, panel);
+            float distance = Vector3.Distance(physicalButtonPos,buttons[randNum[taskIndex]].transform.position);
+            panel.position = new Vector3(panelOriginalPos.x + distance, panelOriginalPos.y, panelOriginalPos.z);
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
             screen.changeText(buttons[randNum[taskIndex]].name);
         }

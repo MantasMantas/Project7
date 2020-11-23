@@ -15,21 +15,23 @@ public class CustomButton : MonoBehaviour
 
     Vector3 startPos;
     Rigidbody rb;
+    AudioSource audio;
 
     void Start()
     {
         startPos = transform.position;
         rb = GetComponent<Rigidbody>();
         touched = false;
+        audio = GetComponent<AudioSource>();
     }
 
-    void OnCollisionEnter(Collision other)
+   /* void OnCollisionEnter(Collision other)
     {
         if(other.gameObject.layer == 0)
         {
             touched = true;
         }
-    }
+    }*/
 
     void OnCollisionExit(Collision other)
     {
@@ -63,6 +65,7 @@ public class CustomButton : MonoBehaviour
                     pressed = true;
                     // If we have an event, invoke it
                     downEvent?.Invoke();
+                    audio.Play(0);
                 }
             }
             else
@@ -79,6 +82,7 @@ public class CustomButton : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, startPos.y, transform.position.z);
             }
+            
         }
 
         

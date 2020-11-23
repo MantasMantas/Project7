@@ -8,7 +8,7 @@ public class ScreenManager : MonoBehaviour
 
     public void changeText(string inputItem)
     {
-        screenText.text = "Press the" + "\n" + inputItem + "\n" + "button";
+        screenText.text = "Section" + "\n" + inputItem;
     }
 
     public void customText(string inputItem)
