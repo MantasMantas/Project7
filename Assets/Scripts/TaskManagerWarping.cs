@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TaskManagerCG : MonoBehaviour
+public class TaskManagerWarping : MonoBehaviour
 {
     public GameObject monitor;
     ScreenManager screen;
@@ -15,6 +15,8 @@ public class TaskManagerCG : MonoBehaviour
     Vector3 physicalButtonPos3;
     Vector3 physicalButtonPos4;
     Vector3 panelOriginalPos;
+    Vector3 T;
+    Vector3 H0;
 
 
     public GameObject section1;
@@ -44,6 +46,7 @@ public class TaskManagerCG : MonoBehaviour
 
     public Transform panel;
     public Transform hand;
+    public Transform handVirtual;
     public Transform boundarry;
     public GameObject text1;
     public GameObject text2;
@@ -58,6 +61,7 @@ public class TaskManagerCG : MonoBehaviour
     int taskIndex;
     string sectionName;
     bool handTracking;
+    bool crossed;
 
 
     // Start is called before the first frame update
@@ -94,14 +98,14 @@ public class TaskManagerCG : MonoBehaviour
          //Incrementing the report number
         for (int i = 0; i <= 500; i++)
         {
-            if (System.IO.File.Exists("Assets/Reports/ReportCG" + increment + ".csv"))
+            if (System.IO.File.Exists("Assets/Reports/Report" + increment + ".csv"))
             {
                 increment++;
             }
         }
 
-        CSVManagerCG.CreateReport();
-        pathTrackingManagerCG.CreateReport();
+        CSVManager.CreateReport();
+        pathTrackingManager.CreateReport();
     }
 
     // Update is called once per frame
@@ -139,8 +143,7 @@ public class TaskManagerCG : MonoBehaviour
                 
             }
 
-            Vector3 distance = physicalButtonPos - buttons[randNum[taskIndex]].transform.position;
-            panel.position = new Vector3(panelOriginalPos.x + distance.x, panelOriginalPos.y, panelOriginalPos.z + distance.z);
+            T = physicalButtonPos - buttons[randNum[taskIndex]].transform.position;
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
             screen.changeText(sectionName, buttons[randNum[taskIndex]].name);
         }
@@ -181,10 +184,26 @@ public class TaskManagerCG : MonoBehaviour
         if(hand.position.z > boundarry.position.z)
         {
             handTracking = true;
+
+            if(!crossed)
+            {
+                crossed = true;
+                H0 = hand.position;
+            }
+
+            float Ds = Vector3.Distance(hand.position, H0);
+            float Dp = Vector3.Distance(hand.position, physicalButtonPos);
+
+            float a = Ds/(Ds+Dp);
+
+            Vector3 W = a*T;
+
+            handVirtual.position = new Vector3(hand.position.x + W.x, hand.position.y + W.y, hand.position.z + W.z);
         }
         else
         {
             handTracking = false;
+            crossed = false;
         }
 
 
@@ -197,7 +216,7 @@ public class TaskManagerCG : MonoBehaviour
         {
             pathTrackingManager.AppendToReport(new string[4]
         {
-            "Change Blindness",
+            "Body warping",
             hand.position.x.ToString(),
             hand.position.y.ToString(),
             hand.position.z.ToString(),
@@ -207,15 +226,13 @@ public class TaskManagerCG : MonoBehaviour
 
     void append(string condition, string question)
     {
-        CSVManagerCG.AppendToReport(
+        CSVManager.AppendToReport(
             new string[3]
             {
-                "Change Blindness",
+                "Body warping",
                 condition,
                 question,
             }
         );
     }
-    
-
 }

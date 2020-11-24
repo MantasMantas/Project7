@@ -4,18 +4,17 @@ using UnityEngine;
 using System.IO;
 using System;
 
-public static class CSVManagerCG
+public static class pathTrackingManagerCG
 {
-
-    
-    private static string reportDirectoryName = "Reports";
-    private static string reportFileName = "ReportCG" + TaskManagerCG.increment + ".csv";
+    private static string reportDirectoryName = "pathReports";
+    private static string reportFileName = "PathCG" + TaskManagerCG.increment + ".csv";
     private static string reportSeparator = ";";
-    private static string[] reportHeaders = new string[3]
+    private static string[] reportHeaders = new string[4]
     {
         "Condition",
-        "Displacement Level",
-        "Answer",
+        "X",
+        "Y",
+        "Z",
     };
     private static string timeStampHeader = "Time stamp";
 
@@ -54,7 +53,7 @@ public static class CSVManagerCG
             string finalString = "";
             for (int i = 0; i < strings.Length; i++)
             {
-                if(finalString != "")
+                if (finalString != "")
                 {
                     finalString += reportSeparator;
                 }

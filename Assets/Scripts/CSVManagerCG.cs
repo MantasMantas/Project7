@@ -4,12 +4,12 @@ using UnityEngine;
 using System.IO;
 using System;
 
-public static class CSVManagerCG
+public static class CSVManager
 {
 
     
     private static string reportDirectoryName = "Reports";
-    private static string reportFileName = "ReportCG" + TaskManagerCG.increment + ".csv";
+    private static string reportFileName = "ReportW" + TaskManagerWarping.increment + ".csv";
     private static string reportSeparator = ";";
     private static string[] reportHeaders = new string[3]
     {

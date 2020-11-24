@@ -7,7 +7,7 @@ using System;
 public static class pathTrackingManager
 {
     private static string reportDirectoryName = "pathReports";
-    private static string reportFileName = "Path" + TaskManagerW.increment + ".csv";
+    private static string reportFileName = "PathW" + TaskManagerWarping.increment + ".csv";
     private static string reportSeparator = ";";
     private static string[] reportHeaders = new string[4]
     {
