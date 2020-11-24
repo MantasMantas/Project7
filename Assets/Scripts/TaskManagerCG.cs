@@ -43,15 +43,22 @@ public class TaskManagerCG : MonoBehaviour
     public GameObject section46;
 
     public Transform panel;
+    public Transform hand;
+    public Transform boundarry;
+    public GameObject text1;
+    public GameObject text2;
 
-
+    //Generating a new name for the report file
+    public static int increment = 1;
 
     List<GameObject> buttons = new List<GameObject>();
     List<int> randNum = new List<int>();
 
     int listSize;
     int taskIndex;
-    string buttonName;
+    string sectionName;
+    bool handTracking;
+
 
     // Start is called before the first frame update
     void Start()
@@ -82,7 +89,19 @@ public class TaskManagerCG : MonoBehaviour
         }
 
         Randomizer.Shuffle(randNum);
-        screen.changeText("Look for next task");
+        screen.customText("Look for next task");
+
+         //Incrementing the report number
+        for (int i = 0; i <= 500; i++)
+        {
+            if (System.IO.File.Exists("Assets/Reports/Report" + increment + ".csv"))
+            {
+                increment++;
+            }
+        }
+
+        CSVManager.CreateReport();
+        pathTrackingManager.CreateReport();
     }
 
     // Update is called once per frame
@@ -98,42 +117,105 @@ public class TaskManagerCG : MonoBehaviour
             if (randNum[taskIndex] >= 0 && randNum[taskIndex] <= 5)
             {
                 physicalButtonPos = physicalButtonPos1;
+                sectionName = "Zarya";
                 
             }
             if (randNum[taskIndex] >= 6 && randNum[taskIndex] <= 11)
             {
                 physicalButtonPos = physicalButtonPos2;
+                sectionName = "Unity";
                 
             }
             if (randNum[taskIndex] >= 12 && randNum[taskIndex] <= 17)
             {
                 physicalButtonPos = physicalButtonPos3;
+                sectionName = "Quest";
                 
             }
             if (randNum[taskIndex] >= 18 && randNum[taskIndex] <= 23)
             {
                 physicalButtonPos = physicalButtonPos4;
+                sectionName = "Dextre";
                 
             }
 
-            float distance = Vector3.Distance(physicalButtonPos,buttons[randNum[taskIndex]].transform.position);
-            panel.position = new Vector3(panelOriginalPos.x + distance, panelOriginalPos.y, panelOriginalPos.z);
+            Vector3 distance = physicalButtonPos - buttons[randNum[taskIndex]].transform.position;
+            panel.position = new Vector3(panelOriginalPos.x + distance.x, panelOriginalPos.y, panelOriginalPos.z + distance.z);
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
-            screen.changeText(buttons[randNum[taskIndex]].name);
+            screen.changeText(sectionName, buttons[randNum[taskIndex]].name);
         }
 
         if(events.buttonPress)
         {   
             if(!buttons[randNum[taskIndex]].GetComponent<CustomButton>().touched)
             {   
-                buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
-                events.buttonPress = false;
-                taskIndex++;
+                text1.SetActive(true);
+                text2.SetActive(true);
+                screen.customText("Question???");
+
+                float distance = Vector3.Distance(physicalButtonPos, buttons[randNum[taskIndex]].transform.position);
+
+                if(events.questionYes || events.questionNo)
+                {
+                    if(events.questionYes)
+                    {
+                        events.questionYes = false;
+                        append(distance.ToString(), "Yes");
+                    }
+                    else
+                    {
+                        events.questionNo = false;
+                        append(distance.ToString(), "No");
+                    }
+
+                    text1.SetActive(false);
+                    text2.SetActive(false);
+
+                    buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
+                    events.buttonPress = false;
+                    taskIndex++;
+                }
+
             }
+        }
+        if(hand.position.z > boundarry.position.z)
+        {
+            handTracking = true;
+        }
+        else
+        {
+            handTracking = false;
         }
 
 
         
     }
+
+    void FixedUpdate()
+    {
+        if(handTracking)
+        {
+            pathTrackingManager.AppendToReport(new string[4]
+        {
+            "Change Blindness",
+            hand.position.x.ToString(),
+            hand.position.y.ToString(),
+            hand.position.z.ToString(),
+        });
+        }
+    }
+
+    void append(string condition, string question)
+    {
+        CSVManager.AppendToReport(
+            new string[3]
+            {
+                "Change Blindness",
+                condition,
+                question,
+            }
+        );
+    }
+    
 
 }

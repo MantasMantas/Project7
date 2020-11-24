@@ -10,7 +10,6 @@ public class CheckGaze : MonoBehaviour
     public float timeThreshold;
     float timeLeft;
     public bool applyManipulation = false;
-    Vector3 T;
 
     private void Start()
     {
@@ -35,7 +34,7 @@ public class CheckGaze : MonoBehaviour
                     if(timeLeft >= 1)
                     {
                         timeLeft -= Time.deltaTime;
-                        Debug.Log("You are pointing towards " + hit.collider.name +": "+timeLeft);
+                        //Debug.Log("You are pointing towards " + hit.collider.name +": "+timeLeft);
                         
 
                     } else
@@ -51,7 +50,7 @@ public class CheckGaze : MonoBehaviour
             {
                 timeLeft = timeThreshold;
                 applyManipulation = false;
-                Debug.Log("You are not looking at anything.");
+                //Debug.Log("You are not looking at anything.");
             }
         }
     }

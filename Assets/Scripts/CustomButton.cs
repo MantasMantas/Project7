@@ -25,13 +25,13 @@ public class CustomButton : MonoBehaviour
         audio = GetComponent<AudioSource>();
     }
 
-   /* void OnCollisionEnter(Collision other)
+   void OnCollisionEnter(Collision other)
     {
         if(other.gameObject.layer == 0)
         {
             touched = true;
         }
-    }*/
+    }
 
     void OnCollisionExit(Collision other)
     {

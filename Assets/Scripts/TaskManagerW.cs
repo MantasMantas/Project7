@@ -99,7 +99,7 @@ public class TaskManagerW : MonoBehaviour
         {
             bodyWarping.setT((buttons[taskIndex].transform.position - physicalButtonPos) * 2f);
             buttons[taskIndex].GetComponent<Collider>().enabled = true;
-            screen.changeText(buttons[taskIndex].name);
+            //screen.changeText(buttons[taskIndex].name);
         }
 
         if (events.buttonPress)
