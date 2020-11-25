@@ -58,6 +58,8 @@ public class TaskManagerCG : MonoBehaviour
     int taskIndex;
     string sectionName;
     bool handTracking;
+    float distance;
+    float multi;
 
 
     // Start is called before the first frame update
@@ -102,11 +104,13 @@ public class TaskManagerCG : MonoBehaviour
 
         CSVManagerCG.CreateReport();
         pathTrackingManagerCG.CreateReport();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        
          if(taskIndex >= listSize)
         {
             screen.customText("Good Job");
@@ -116,31 +120,35 @@ public class TaskManagerCG : MonoBehaviour
         {
             if (randNum[taskIndex] >= 0 && randNum[taskIndex] <= 5)
             {
-                physicalButtonPos = physicalButtonPos1;
+                physicalButtonPos = section1.transform.position;
                 sectionName = "Zarya";
-                
+                multi = -1;
+
             }
             if (randNum[taskIndex] >= 6 && randNum[taskIndex] <= 11)
             {
-                physicalButtonPos = physicalButtonPos2;
+                physicalButtonPos = section2.transform.position;
                 sectionName = "Unity";
-                
+                multi = 1;
+
             }
             if (randNum[taskIndex] >= 12 && randNum[taskIndex] <= 17)
             {
-                physicalButtonPos = physicalButtonPos3;
+                physicalButtonPos = section3.transform.position;
                 sectionName = "Quest";
-                
+                multi = -1;
+
             }
             if (randNum[taskIndex] >= 18 && randNum[taskIndex] <= 23)
             {
-                physicalButtonPos = physicalButtonPos4;
+                physicalButtonPos = section4.transform.position;
                 sectionName = "Dextre";
-                
+                multi = 1;
+
             }
 
-            Vector3 distance = physicalButtonPos - buttons[randNum[taskIndex]].transform.position;
-            panel.position = new Vector3(panelOriginalPos.x + distance.x, panelOriginalPos.y, panelOriginalPos.z + distance.z);
+            distance = Mathf.Abs(physicalButtonPos.x - buttons[randNum[taskIndex]].transform.position.x);
+            panel.position = new Vector3(panelOriginalPos.x + (multi*distance), panelOriginalPos.y, panelOriginalPos.z);
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
             screen.changeText(sectionName, buttons[randNum[taskIndex]].name);
         }
@@ -153,9 +161,7 @@ public class TaskManagerCG : MonoBehaviour
                 text2.SetActive(true);
                 screen.customText("Question???");
 
-                float distance = Vector3.Distance(physicalButtonPos, buttons[randNum[taskIndex]].transform.position);
-
-                if(events.questionYes || events.questionNo)
+                if (events.questionYes || events.questionNo)
                 {
                     if(events.questionYes)
                     {
@@ -195,7 +201,7 @@ public class TaskManagerCG : MonoBehaviour
     {
         if(handTracking)
         {
-            pathTrackingManager.AppendToReport(new string[4]
+            pathTrackingManagerCG.AppendToReport(new string[4]
         {
             "Change Blindness",
             hand.position.x.ToString(),
