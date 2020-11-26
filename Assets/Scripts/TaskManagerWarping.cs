@@ -62,6 +62,8 @@ public class TaskManagerWarping : MonoBehaviour
     string sectionName;
     bool handTracking;
     bool crossed;
+    bool track;
+    float multi;
 
 
     // Start is called before the first frame update
@@ -98,7 +100,7 @@ public class TaskManagerWarping : MonoBehaviour
          //Incrementing the report number
         for (int i = 0; i <= 500; i++)
         {
-            if (System.IO.File.Exists("Assets/Reports/Report" + increment + ".csv"))
+            if (System.IO.File.Exists("Assets/Reports/ReportW" + increment + ".csv"))
             {
                 increment++;
             }
@@ -122,34 +124,43 @@ public class TaskManagerWarping : MonoBehaviour
             {
                 physicalButtonPos = physicalButtonPos1;
                 sectionName = "Zarya";
+                multi = 1f;
                 
             }
             if (randNum[taskIndex] >= 6 && randNum[taskIndex] <= 11)
             {
                 physicalButtonPos = physicalButtonPos2;
                 sectionName = "Unity";
+                multi = -2f;
                 
             }
             if (randNum[taskIndex] >= 12 && randNum[taskIndex] <= 17)
             {
                 physicalButtonPos = physicalButtonPos3;
                 sectionName = "Quest";
+                multi = -2f;
                 
             }
             if (randNum[taskIndex] >= 18 && randNum[taskIndex] <= 23)
             {
                 physicalButtonPos = physicalButtonPos4;
                 sectionName = "Dextre";
+                multi = -2f;
                 
             }
 
-            T = physicalButtonPos - buttons[randNum[taskIndex]].transform.position;
+            T = (physicalButtonPos - buttons[randNum[taskIndex]].transform.position) * multi;
+            Debug.Log("Physical " + physicalButtonPos.ToString() + " " + "virual " + buttons[randNum[taskIndex]].transform.position.ToString());
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
             screen.changeText(sectionName, buttons[randNum[taskIndex]].name);
+
+            if (taskIndex <= 0) { track = true; }
         }
 
         if(events.buttonPress)
-        {   
+        {
+            track = false;
+
             if(!buttons[randNum[taskIndex]].GetComponent<CustomButton>().touched)
             {   
                 text1.SetActive(true);
@@ -176,6 +187,7 @@ public class TaskManagerWarping : MonoBehaviour
 
                     buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
                     events.buttonPress = false;
+                    track = true;
                     taskIndex++;
                 }
 
@@ -198,7 +210,7 @@ public class TaskManagerWarping : MonoBehaviour
 
             Vector3 W = a*T;
 
-            handVirtual.position = new Vector3(hand.position.x + W.x, hand.position.y + W.y, hand.position.z + W.z);
+            handVirtual.position = new Vector3(hand.position.x + W.x, hand.position.y, hand.position.z);
         }
         else
         {
@@ -212,14 +224,16 @@ public class TaskManagerWarping : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(handTracking)
+        if(handTracking && track)
         {
-            pathTrackingManager.AppendToReport(new string[4]
+            pathTrackingManager.AppendToReport(new string[5]
         {
             "Body warping",
             hand.position.x.ToString(),
             hand.position.y.ToString(),
             hand.position.z.ToString(),
+            Vector3.Distance(physicalButtonPos, buttons[randNum[taskIndex]].transform.position).ToString(),
+
         });
         }
     }

@@ -60,6 +60,7 @@ public class TaskManagerCG : MonoBehaviour
     bool handTracking;
     float distance;
     float multi;
+    bool track;
 
 
     // Start is called before the first frame update
@@ -151,10 +152,13 @@ public class TaskManagerCG : MonoBehaviour
             panel.position = new Vector3(panelOriginalPos.x + (multi*distance), panelOriginalPos.y, panelOriginalPos.z);
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
             screen.changeText(sectionName, buttons[randNum[taskIndex]].name);
+
+            if(taskIndex<= 0) { track = true; }
         }
 
         if(events.buttonPress)
-        {   
+        {
+            track = false;
             if(!buttons[randNum[taskIndex]].GetComponent<CustomButton>().touched)
             {   
                 text1.SetActive(true);
@@ -179,6 +183,7 @@ public class TaskManagerCG : MonoBehaviour
 
                     buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
                     events.buttonPress = false;
+                    track = true;
                     taskIndex++;
                 }
 
@@ -199,14 +204,15 @@ public class TaskManagerCG : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(handTracking)
+        if(handTracking && track)
         {
-            pathTrackingManagerCG.AppendToReport(new string[4]
+            pathTrackingManagerCG.AppendToReport(new string[5]
         {
             "Change Blindness",
             hand.position.x.ToString(),
             hand.position.y.ToString(),
             hand.position.z.ToString(),
+            Vector3.Distance(physicalButtonPos, buttons[randNum[taskIndex]].transform.position).ToString(),
         });
         }
     }

@@ -9,12 +9,13 @@ public static class pathTrackingManagerCG
     private static string reportDirectoryName = "pathReports";
     private static string reportFileName = "PathCG" + TaskManagerCG.increment + ".csv";
     private static string reportSeparator = ";";
-    private static string[] reportHeaders = new string[4]
+    private static string[] reportHeaders = new string[5]
     {
         "Condition",
         "X",
         "Y",
         "Z",
+        "Displacement",
     };
     private static string timeStampHeader = "Time stamp";
 

@@ -65,7 +65,7 @@ public class CustomButton : MonoBehaviour
                     pressed = true;
                     // If we have an event, invoke it
                     downEvent?.Invoke();
-                    audio.Play(0);
+                    //audio.Play(0);
                 }
             }
             else

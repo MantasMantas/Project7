@@ -879,9 +879,9 @@ GameObject:
   - component: {fileID: 183020817}
   - component: {fileID: 183020816}
   - component: {fileID: 183020821}
-  - component: {fileID: 183020820}
   - component: {fileID: 183020822}
   - component: {fileID: 183020823}
+  - component: {fileID: 183020820}
   m_Layer: 0
   m_Name: GroundCollider
   m_TagString: Untagged
@@ -975,7 +975,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 183020815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d29295bbe936d65488aa5b5353c991ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 28b6f9a43f70b1242884ec2c016a8773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monitor: {fileID: 332961116}
@@ -1005,6 +1005,7 @@ MonoBehaviour:
   section46: {fileID: 1858393906}
   panel: {fileID: 1461870183}
   hand: {fileID: 1120140211}
+  handVirtual: {fileID: 658036956}
   boundarry: {fileID: 989764388}
   text1: {fileID: 2070071001}
   text2: {fileID: 57826267}
@@ -1689,7 +1690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 26160742ce2573945958588c687e506e, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 26160742ce2573945958588c687e506e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3696,7 +3697,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6530532885075229043, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
       propertyPath: _renderPhysicsCapsules
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6530723074823425720, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
+      propertyPath: resetHmdPoseByMiddleMouseButton
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6530723074823425720, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
+      propertyPath: resetHmdPoseOnRelease
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6572857271639867364, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
       propertyPath: m_RenderingPath
@@ -3768,7 +3777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6572857271647017468, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
       propertyPath: _trackingOriginType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6572857271647017468, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
       propertyPath: maxRenderScale
@@ -3782,8 +3791,25 @@ PrefabInstance:
       propertyPath: AllowRecenter
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6572857271647017468, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
+      propertyPath: usePositionTracking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6572857271647017468, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
+      propertyPath: useIPDInPositionTracking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6572857271647017468, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
+      propertyPath: resetTrackerOnLoad
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
+--- !u!4 &658036956 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6573189127497781007, guid: 86f105de59d17a949bf49c43a24df291, type: 3}
+  m_PrefabInstance: {fileID: 658036955}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &664750906
 GameObject:
   m_ObjectHideFlags: 0
@@ -4888,9 +4914,9 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.1785, z: 0.9628076}
   m_LocalScale: {x: 0.5519698, y: 0.5519696, z: 0.5519698}
   m_Children:
-  - {fileID: 1858393907}
   - {fileID: 1098839466}
   - {fileID: 462472487}
+  - {fileID: 1858393907}
   m_Father: {fileID: 317014054}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7449,7 +7475,7 @@ Transform:
   m_LocalScale: {x: 0.00021117886, y: 0.00021117886, z: 0.00011338404}
   m_Children: []
   m_Father: {fileID: 762004952}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!54 &1098839467
 Rigidbody:
@@ -12408,11 +12434,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858393906}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.000000026944, y: 1.628491, z: -0.0000000016758}
+  m_LocalPosition: {x: 0, y: 1.628491, z: 0}
   m_LocalScale: {x: 0.0061242445, y: 0.0061242445, z: 0.0032881682}
   m_Children: []
   m_Father: {fileID: 762004952}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!82 &1858393908
 AudioSource:
@@ -12550,7 +12576,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 1098839467}
   m_Anchor: {x: 0, y: 3.9999692, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -1.9714728e-10, y: 116.5506, z: -0.000000002381343}
+  m_ConnectedAnchor: {x: -0.000007935471, y: 116.5506, z: 0.00023763491}
   serializedVersion: 2
   m_Spring: 100
   m_Damper: 10
