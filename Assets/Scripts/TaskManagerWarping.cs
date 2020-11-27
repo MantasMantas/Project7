@@ -63,7 +63,6 @@ public class TaskManagerWarping : MonoBehaviour
     bool handTracking;
     bool crossed;
     bool track;
-    float multi;
 
 
     // Start is called before the first frame update
@@ -85,7 +84,7 @@ public class TaskManagerWarping : MonoBehaviour
         buttons.Add(section4); buttons.Add(section42); buttons.Add(section43); buttons.Add(section44); buttons.Add(section45); buttons.Add(section46);
 
         listSize = buttons.Count;
-        taskIndex = 0;
+        taskIndex = 5;
 
     
         for (int i=0; i < listSize; i++)
@@ -94,7 +93,7 @@ public class TaskManagerWarping : MonoBehaviour
             buttons[i].GetComponent<Collider>().enabled = false;
         }
 
-        Randomizer.Shuffle(randNum);
+        //Randomizer.Shuffle(randNum);
         screen.customText("Look for next task");
 
          //Incrementing the report number
@@ -124,33 +123,132 @@ public class TaskManagerWarping : MonoBehaviour
             {
                 physicalButtonPos = physicalButtonPos1;
                 sectionName = "Zarya";
-                multi = 1f;
-                
+
+                if(randNum[taskIndex] == 0)
+                {
+                    T.x = 0f;
+                }
+                if(randNum[taskIndex] == 1)
+                {
+                    T.x = 0.03f;
+                }
+                if(randNum[taskIndex] == 2)
+                {
+                    T.x = 0.06f;
+                }
+                if(randNum[taskIndex] == 3)
+                {
+                    T.x = 0.12f;
+                }
+                if(randNum[taskIndex] == 4)
+                {
+                    T.x = 0.15f;
+                }
+                if(randNum[taskIndex] == 5)
+                {
+                    T.x = 0.18f;
+                }
+
+                  
             }
             if (randNum[taskIndex] >= 6 && randNum[taskIndex] <= 11)
             {
-                physicalButtonPos = physicalButtonPos2;
+                physicalButtonPos = physicalButtonPos1;
                 sectionName = "Unity";
-                multi = -2f;
+
+                if(randNum[taskIndex] == 6)
+                {
+                    T.x = 0f;
+                }
+                if(randNum[taskIndex] == 7)
+                {
+                    T.x = -0.06f;
+                }
+                if(randNum[taskIndex] == 8)
+                {
+                    T.x = -0.09f;
+                }
+                if(randNum[taskIndex] == 9)
+                {
+                    T.x = -0.15f;
+                }
+                if(randNum[taskIndex] == 10)
+                {
+                    T.x = -0.21f;
+                }
+                if(randNum[taskIndex] == 11)
+                {
+                    T.x = -0.27f;
+                }
                 
             }
             if (randNum[taskIndex] >= 12 && randNum[taskIndex] <= 17)
             {
                 physicalButtonPos = physicalButtonPos3;
                 sectionName = "Quest";
-                multi = -2f;
+
+                
+                if(randNum[taskIndex] == 12)
+                {
+                    T.x = 0f;
+                }
+                if(randNum[taskIndex] == 13)
+                {
+                    T.x = 0.06f;
+                }
+                if(randNum[taskIndex] == 14)
+                {
+                    T.x = 0.09f;
+                }
+                if(randNum[taskIndex] == 15)
+                {
+                    T.x = 0.12f;
+                }
+                if(randNum[taskIndex] == 16)
+                {
+                    T.x = 0.18f;
+                }
+                if(randNum[taskIndex] == 17)
+                {
+                    T.x = 0.24f;
+                }
                 
             }
             if (randNum[taskIndex] >= 18 && randNum[taskIndex] <= 23)
             {
                 physicalButtonPos = physicalButtonPos4;
                 sectionName = "Dextre";
-                multi = -2f;
+
+                
+                if(randNum[taskIndex] == 18)
+                {
+                    T.x = 0f;
+                }
+                if(randNum[taskIndex] == 19)
+                {
+                    T.x = -0.06f;
+                }
+                if(randNum[taskIndex] == 20)
+                {
+                    T.x = -0.09f;
+                }
+                if(randNum[taskIndex] == 21)
+                {
+                    T.x = -0.15f;
+                }
+                if(randNum[taskIndex] == 22)
+                {
+                    T.x = -0.21f;
+                }
+                if(randNum[taskIndex] == 23)
+                {
+                    T.x = -0.24f;
+                }
                 
             }
 
-            T = (physicalButtonPos - buttons[randNum[taskIndex]].transform.position) * multi;
-            Debug.Log("Physical " + physicalButtonPos.ToString() + " " + "virual " + buttons[randNum[taskIndex]].transform.position.ToString());
+            //T = (buttons[randNum[taskIndex]].transform.position - physicalButtonPos);
+            //T = new Vector3(Mathf.Abs(T.x) * multi, T.y, T.z);
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
             screen.changeText(sectionName, buttons[randNum[taskIndex]].name);
 
@@ -166,6 +264,8 @@ public class TaskManagerWarping : MonoBehaviour
                 text1.SetActive(true);
                 text2.SetActive(true);
                 screen.customText("Question???");
+                buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
+
 
                 float distance = Vector3.Distance(physicalButtonPos, buttons[randNum[taskIndex]].transform.position);
 
@@ -174,18 +274,16 @@ public class TaskManagerWarping : MonoBehaviour
                     if(events.questionYes)
                     {
                         events.questionYes = false;
-                        append(distance.ToString(), "Yes");
+                        append(Vector3.Distance(physicalButtonPos, buttons[randNum[taskIndex]].transform.position).ToString(), "Yes");
                     }
                     else
                     {
                         events.questionNo = false;
-                        append(distance.ToString(), "No");
+                        append(Vector3.Distance(physicalButtonPos, buttons[randNum[taskIndex]].transform.position).ToString(), "No");
                     }
 
                     text1.SetActive(false);
                     text2.SetActive(false);
-
-                    buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
                     events.buttonPress = false;
                     track = true;
                     taskIndex++;
@@ -204,7 +302,7 @@ public class TaskManagerWarping : MonoBehaviour
             }
 
             float Ds = Vector3.Distance(hand.position, H0);
-            float Dp = Vector3.Distance(hand.position, physicalButtonPos);
+            float Dp = Vector3.Distance(hand.position, buttons[randNum[taskIndex]].transform.position);
 
             float a = Ds/(Ds+Dp);
 
