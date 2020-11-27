@@ -163,7 +163,7 @@ public class TaskManagerCG : MonoBehaviour
             {   
                 text1.SetActive(true);
                 text2.SetActive(true);
-                screen.customText("Question???");
+                screen.customText("Was the environment" + "\n" + "manipulated?");
 
                 if (events.questionYes || events.questionNo)
                 {

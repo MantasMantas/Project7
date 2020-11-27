@@ -84,7 +84,7 @@ public class TaskManagerWarping : MonoBehaviour
         buttons.Add(section4); buttons.Add(section42); buttons.Add(section43); buttons.Add(section44); buttons.Add(section45); buttons.Add(section46);
 
         listSize = buttons.Count;
-        taskIndex = 5;
+        taskIndex = 0;
 
     
         for (int i=0; i < listSize; i++)
@@ -93,7 +93,7 @@ public class TaskManagerWarping : MonoBehaviour
             buttons[i].GetComponent<Collider>().enabled = false;
         }
 
-        //Randomizer.Shuffle(randNum);
+        Randomizer.Shuffle(randNum);
         screen.customText("Look for next task");
 
          //Incrementing the report number
@@ -124,6 +124,7 @@ public class TaskManagerWarping : MonoBehaviour
                 physicalButtonPos = physicalButtonPos1;
                 sectionName = "Zarya";
 
+                
                 if(randNum[taskIndex] == 0)
                 {
                     T.x = 0f;
@@ -153,9 +154,10 @@ public class TaskManagerWarping : MonoBehaviour
             }
             if (randNum[taskIndex] >= 6 && randNum[taskIndex] <= 11)
             {
-                physicalButtonPos = physicalButtonPos1;
+                
+                physicalButtonPos = physicalButtonPos2;
                 sectionName = "Unity";
-
+                
                 if(randNum[taskIndex] == 6)
                 {
                     T.x = 0f;
@@ -246,7 +248,10 @@ public class TaskManagerWarping : MonoBehaviour
                 }
                 
             }
-
+            /*
+             * 
+             * 
+             */
             //T = (buttons[randNum[taskIndex]].transform.position - physicalButtonPos);
             //T = new Vector3(Mathf.Abs(T.x) * multi, T.y, T.z);
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
@@ -263,7 +268,7 @@ public class TaskManagerWarping : MonoBehaviour
             {   
                 text1.SetActive(true);
                 text2.SetActive(true);
-                screen.customText("Question???");
+                screen.customText("Was the movement of"+ "\n" + "your hand manipulated?");
                 buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
 
 
