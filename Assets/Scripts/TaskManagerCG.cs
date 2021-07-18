@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class TaskManagerCG : MonoBehaviour
 {
-    public GameObject monitor;
-    ScreenManager screen;
+    public GameObject monitorTask;
+    public GameObject monitorQuestion;
+    ScreenManager screenTask;
+    ScreenManager screenQuestion;
     Events events;
     CheckGaze checkGaze;
 
@@ -47,6 +49,7 @@ public class TaskManagerCG : MonoBehaviour
     public Transform boundarry;
     public GameObject text1;
     public GameObject text2;
+    public GameObject indicator;
 
     //Generating a new name for the report file
     public static int increment = 1;
@@ -66,7 +69,8 @@ public class TaskManagerCG : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        screen = monitor.GetComponent<ScreenManager>();
+        screenTask = monitorTask.GetComponent<ScreenManager>();
+        screenQuestion = monitorQuestion.GetComponent<ScreenManager>();
         events = GetComponent<Events>();
         checkGaze = GetComponent<CheckGaze>();
 
@@ -92,7 +96,8 @@ public class TaskManagerCG : MonoBehaviour
         }
 
         Randomizer.Shuffle(randNum);
-        screen.customText("Look for next task");
+        screenTask.customText("Look for next task");
+        screenQuestion.customText("Task ready");
 
          //Incrementing the report number
         for (int i = 0; i <= 500; i++)
@@ -114,7 +119,7 @@ public class TaskManagerCG : MonoBehaviour
         
          if(taskIndex >= listSize)
         {
-            screen.customText("Good Job");
+            screenTask.customText("Good Job");
             return;
         }
         if (!buttons[randNum[taskIndex]].GetComponent<Collider>().enabled && checkGaze.applyManipulation)
@@ -147,11 +152,12 @@ public class TaskManagerCG : MonoBehaviour
                 multi = 1;
 
             }
-
+            
+            indicator.SetActive(false);
             distance = Mathf.Abs(physicalButtonPos.x - buttons[randNum[taskIndex]].transform.position.x);
             panel.position = new Vector3(panelOriginalPos.x + (multi*distance), panelOriginalPos.y, panelOriginalPos.z);
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
-            screen.changeText(sectionName, buttons[randNum[taskIndex]].name);
+            screenTask.changeText(sectionName, buttons[randNum[taskIndex]].name);
 
             if(taskIndex<= 0) { track = true; }
         }
@@ -163,7 +169,7 @@ public class TaskManagerCG : MonoBehaviour
             {   
                 text1.SetActive(true);
                 text2.SetActive(true);
-                screen.customText("Was the environment" + "\n" + "manipulated?");
+                screenQuestion.customText("Was the environment" + "\n" + "manipulated?");
 
                 if (events.questionYes || events.questionNo)
                 {
@@ -172,7 +178,7 @@ public class TaskManagerCG : MonoBehaviour
                         events.questionYes = false;
                         append(distance.ToString(), "Yes");
                     }
-                    else
+                    else if(events.questionNo)
                     {
                         events.questionNo = false;
                         append(distance.ToString(), "No");
@@ -184,7 +190,13 @@ public class TaskManagerCG : MonoBehaviour
                     buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
                     events.buttonPress = false;
                     track = true;
+                    panel.position = panelOriginalPos;
+                    screenQuestion.customText("Check status indicator");
+                    screenTask.customText("Look for next task");
+                    indicator.SetActive(true);
                     taskIndex++;
+
+
                 }
 
             }
