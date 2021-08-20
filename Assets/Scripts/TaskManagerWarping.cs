@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class TaskManagerWarping : MonoBehaviour
 {
-    public GameObject monitor;
-    ScreenManager screen;
+    public GameObject monitorTask;
+    public GameObject monitorQuestion;
+    ScreenManager screenTask;
+    ScreenManager screenQuestion;
     Events events;
     CheckGaze checkGaze;
 
@@ -50,6 +52,7 @@ public class TaskManagerWarping : MonoBehaviour
     public Transform boundarry;
     public GameObject text1;
     public GameObject text2;
+    public GameObject indicator;
 
     //Generating a new name for the report file
     public static int increment = 1;
@@ -68,7 +71,8 @@ public class TaskManagerWarping : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        screen = monitor.GetComponent<ScreenManager>();
+        screenTask = monitorTask.GetComponent<ScreenManager>();
+        screenQuestion = monitorQuestion.GetComponent<ScreenManager>();
         events = GetComponent<Events>();
         checkGaze = GetComponent<CheckGaze>();
 
@@ -94,7 +98,8 @@ public class TaskManagerWarping : MonoBehaviour
         }
 
         Randomizer.Shuffle(randNum);
-        screen.customText("Look for next task");
+        screenTask.customText("Look for next task");
+        screenQuestion.customText("Task ready");
 
          //Incrementing the report number
         for (int i = 0; i <= 500; i++)
@@ -114,7 +119,7 @@ public class TaskManagerWarping : MonoBehaviour
     {
          if(taskIndex >= listSize)
         {
-            screen.customText("Good Job");
+            screenTask.customText("Good Job");
             return;
         }
         if (!buttons[randNum[taskIndex]].GetComponent<Collider>().enabled && checkGaze.applyManipulation)
@@ -254,21 +259,23 @@ public class TaskManagerWarping : MonoBehaviour
              */
             //T = (buttons[randNum[taskIndex]].transform.position - physicalButtonPos);
             //T = new Vector3(Mathf.Abs(T.x) * multi, T.y, T.z);
+            indicator.SetActive(false);
             buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = true;
-            screen.changeText(sectionName, buttons[randNum[taskIndex]].name);
+            screenTask.changeText(sectionName, buttons[randNum[taskIndex]].name);
 
             if (taskIndex <= 0) { track = true; }
         }
 
         if(events.buttonPress)
         {
+            screenQuestion.customText("The button was pressed!!!!!!");
             track = false;
 
             if(!buttons[randNum[taskIndex]].GetComponent<CustomButton>().touched)
             {   
                 text1.SetActive(true);
                 text2.SetActive(true);
-                screen.customText("Was the movement of"+ "\n" + "your hand manipulated?");
+                screenQuestion.customText("Was the movement of"+ "\n" + "your hand manipulated?");
                 buttons[randNum[taskIndex]].GetComponent<Collider>().enabled = false;
 
 
@@ -291,6 +298,9 @@ public class TaskManagerWarping : MonoBehaviour
                     text2.SetActive(false);
                     events.buttonPress = false;
                     track = true;
+                    screenQuestion.customText("Check status indicator");
+                    screenTask.customText("Look for next task");
+                    indicator.SetActive(true);
                     taskIndex++;
                 }
 
